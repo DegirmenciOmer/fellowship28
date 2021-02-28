@@ -7,10 +7,20 @@
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",
     "@testing-library/user-event": "^12.7.3",
+    "jwt-decode": "^3.1.2",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-scripts": "4.0.3",
-    "web-vitals": "^1.1.0"
+    "semantic-ui-react": "^2.0.3",
+    "web-vitals": "^1.1.0",
+    "apollo-client": "^2.6.2",
+    "apollo-link-context": "^1.0.18",
+    "apollo-link-http": "^1.5.14",
+    "graphql": "^14.3.1",
+    "graphql-tag": "^2.10.1",
+    "moment": "^2.24.0",
+    "react-router-dom": "^5.1.2",
+    "semantic-ui-css": "^2.4.1"
   },
   "scripts": {
     "start": "react-scripts start",
