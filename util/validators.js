@@ -28,13 +28,16 @@ module.exports.validateRegisterInput = (
   };
 };
 
-module.exports.validateLoginInput = (username, password) => {
+module.exports.validateLoginInput = (username, password, isVerified) => {
   const errors = {};
   if (username.trim() === '') {
     errors.username = 'Username must not be empty';
   }
   if (password.trim() === '') {
     errors.password = 'Password must not be empty';
+  }
+  if (password.trim() === '') {
+    errors.isVerified = 'This account must be verified via email';
   }
 
   return {

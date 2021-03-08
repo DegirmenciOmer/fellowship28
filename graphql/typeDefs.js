@@ -28,6 +28,7 @@ module.exports = gql`
     token: String!
     username: String!
     createdAt: String!
+    isVerified: Boolean!
   }
   input RegisterInput {
     username: String!
