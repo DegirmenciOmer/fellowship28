@@ -27,7 +27,7 @@ const Filtering = ({ categorySelected, onFilterChange }) => {
               value={categorySelected}
               name='filter'
               onChange={onChange}
-            />{' '}
+            />
           </Grid.Column>
           <Grid.Column>
             <Button

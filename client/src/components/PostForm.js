@@ -24,6 +24,7 @@ const PostForm = () => {
     update(proxy, result) {
       const data = proxy.readQuery({
         query: FETCH_POSTS_QUERY,
+        // category: category,
       })
 
       const newData = [result.data.createPost, ...data.getPosts]
