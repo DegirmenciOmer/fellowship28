@@ -8,6 +8,7 @@ import { AuthContext } from '../context/auth'
 import { FETCH_POSTS_QUERY } from '../util/graphql'
 
 import Filtering from '../components/Filtering'
+import { useLocation } from '../util/hooks'
 
 const Home = () => {
   const [categorySelected, setCategory] = useState()
@@ -19,6 +20,9 @@ const Home = () => {
   if (!data) {
     return null
   }
+
+  const location = useLocation()
+  console.log(location)
 
   const { getPosts: posts } = data
 
@@ -63,6 +67,11 @@ const Home = () => {
                 ))}
             </TransitionGroup>
           )}
+        </Grid.Row>
+        <Grid.Row>
+          {location.laoded
+            ? JSON.stringify(location)
+            : 'Location data not available'}
         </Grid.Row>
       </Grid>
     </div>
