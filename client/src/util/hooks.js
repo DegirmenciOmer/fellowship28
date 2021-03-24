@@ -53,9 +53,6 @@ export const useLocation = () => {
       })
     }
     navigator.geolocation.getCurrentPosition(onSuccess, onError)
-    return () => {
-      cleanup
-    }
-  }, [input])
+  }, [])
   return location
 }

@@ -17,12 +17,12 @@ const Home = () => {
     variables: { category: categorySelected },
   })
 
+  const location = useLocation()
+  console.log(location)
+
   if (!data) {
     return null
   }
-
-  const location = useLocation()
-  console.log(location)
 
   const { getPosts: posts } = data
 
