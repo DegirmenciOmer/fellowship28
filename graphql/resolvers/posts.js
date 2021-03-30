@@ -57,7 +57,7 @@ module.exports = {
   },
   Mutation: {
     // create post
-    async createPost(_, { body, category }, context) {
+    async createPost(_, { body, category, lat, lng }, context) {
       const user = checkAuth(context)
 
       if (body.trim() === '' || category.trim() === '') {
@@ -67,11 +67,12 @@ module.exports = {
       const newPost = new Post({
         body,
         category,
+        lat,
+        lng,
         user: user.id,
         username: user.username,
         imageUrl: user.imageUrl,
         createdAt: new Date().toISOString(),
-        
       })
 
       const post = await newPost.save()
