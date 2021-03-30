@@ -6,6 +6,8 @@ module.exports = gql`
     body: String!
     category: String!
     createdAt: String!
+    lat: String
+    lng: String
     username: String!
     imageUrl: String
     author: [User]!
@@ -55,13 +57,17 @@ module.exports = gql`
     getPosts(category: String, offset: Int, limit: Int): PostsResponse
     getPost(postId: ID!): Post
     getUser(userId: ID!): User
-
   }
   type Mutation {
     register(registerInput: RegisterInput): User!
     updateUser(userId: ID!, imageUrl: String, email: String!): User!
     login(username: String!, password: String!): User!
-    createPost(body: String!, category: String!): Post!
+    createPost(
+      body: String!
+      category: String!
+      lat: String
+      lng: String
+    ): Post!
     deletePost(postId: ID!): String!
     createComment(postId: String!, body: String!): Post!
     deleteComment(postId: ID!, commentId: ID!): Post!

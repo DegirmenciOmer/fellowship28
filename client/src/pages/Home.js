@@ -9,9 +9,13 @@ import { FETCH_POSTS_QUERY } from '../util/graphql'
 import Filtering from '../components/Filtering'
 import NewPopup from '../util/NewPopup'
 
+import useGeolocation from '../util/useGeolocation'
+
 import { PAGINATION_LIMIT, INITIAL_VARIABLES } from '../constants/constants'
 
 const Home = () => {
+  const location = useGeolocation()
+  console.log(location)
   const [categorySelected, setCategory] = useState(INITIAL_VARIABLES.category)
   const [offset, setOffset] = useState(INITIAL_VARIABLES.offset)
   const { user } = useContext(AuthContext)
@@ -32,7 +36,6 @@ const Home = () => {
   const {
     getPosts: { paginatedPosts, totalPostsCount, matchedResultsCount },
   } = data
-
 
   function nextPage() {
     setOffset((offset) => offset + PAGINATION_LIMIT)
@@ -68,7 +71,7 @@ const Home = () => {
   return (
     <div>
       <Grid>
-        <Grid.Column floated='left' width={5}>
+        <Grid.Column floated="left" width={5}>
           <Grid.Row>
             {user && (
               <Grid.Column>
@@ -122,18 +125,18 @@ const Home = () => {
           )}
         </Grid.Row>
         <Grid.Row>
-          <Grid.Column position='right'>
+          <Grid.Column position="right">
             {!isFirstPage() && (
-              <NewPopup content='Previous'>
-                <Button className='ui basic icon button' onClick={previousPage}>
-                  <i className='fas fa-chevron-circle-left'></i>
+              <NewPopup content="Previous">
+                <Button className="ui basic icon button" onClick={previousPage}>
+                  <i className="fas fa-chevron-circle-left"></i>
                 </Button>
               </NewPopup>
             )}
             {!isLastPage() && (
-              <NewPopup content='Next'>
-                <Button className='ui basic icon button' onClick={nextPage}>
-                  <i className='fas fa-chevron-circle-right'></i>
+              <NewPopup content="Next">
+                <Button className="ui basic icon button" onClick={nextPage}>
+                  <i className="fas fa-chevron-circle-right"></i>
                 </Button>
               </NewPopup>
             )}
