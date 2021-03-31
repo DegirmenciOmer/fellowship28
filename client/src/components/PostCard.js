@@ -38,6 +38,7 @@ const PostCard = ({
       refetchQueries: [postsQuery],
     })
   }
+
   return (
     <Card fluid>
       <Card.Content>

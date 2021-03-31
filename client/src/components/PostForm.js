@@ -25,14 +25,16 @@ const PostForm = ({ categoryFiltered, postsQuery }) => {
     }))
   }, [categoryFiltered, setValues])
 
-  function createPostCallback() {
-    createPost({
+  async function createPostCallback() {
+    await createPost({
       variables: values,
-      refetchQueries: [postsQuery]
-    }).catch(error => {
-      console.log(error);
-    });
-  }
+      refetchQueries: [postsQuery],
+      onError(err) {
+        console.log(err)
+      },
+    })
+  } 
+
   return (
     <>
       <Form onSubmit={onSubmit}>
