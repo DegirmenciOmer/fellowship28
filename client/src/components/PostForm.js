@@ -28,11 +28,10 @@ const PostForm = ({ categoryFiltered, postsQuery }) => {
   function createPostCallback() {
     createPost({
       variables: values,
-      onError(err) {
-        console.log(err && err.graphQLErrors[0] ? err.graphQLErrors[0] : err)
-      },
       refetchQueries: [postsQuery]
-    })
+    }).catch(error => {
+      console.log(error);
+    });
   }
   return (
     <>

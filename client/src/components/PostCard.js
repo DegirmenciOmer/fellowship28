@@ -38,7 +38,6 @@ const PostCard = ({
       refetchQueries: [postsQuery],
     })
   }
-  console.log(imageUrl)
   return (
     <Card fluid>
       <Card.Content>
