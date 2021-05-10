@@ -4,10 +4,15 @@ import { Button, Card, Grid, Icon, Image, Label, Form } from 'semantic-ui-react'
 import moment from 'moment'
 import DeleteButton from '../components/DeleteButton'
 import { useForm } from '../util/hooks'
-
+import { FETCH_POST_QUERY } from '../util/queries'
 import LikeButton from '../components/LikeButton'
 import { AuthContext } from '../context/auth'
 import NewPopup from '../util/NewPopup'
+import {
+  SUBMIT_COMMENT_MUTATION,
+  UPDATE_POST_MUTATION,
+  DELETE_COMMENT_MUTATION,
+} from '../util/mutations'
 
 const SinglePost = (props) => {
   const [toggle, setToggle] = useState(false)
@@ -90,30 +95,31 @@ const SinglePost = (props) => {
       body,
       category,
       createdAt,
-      author: { username, imageUrl },
+      author: { username: authorName, imageUrl: authorImg },
       comments,
       likes,
       likeCount,
       commentCount,
     } = post
 
+    console.log(comments[0])
     postMarkup = (
       <Grid>
         <Grid.Row>
           <Grid.Column width={2}>
-            <Image floated='right' size='small' src={imageUrl} />
+            <Image floated='right' size='small' src={authorImg} />
           </Grid.Column>
           <Grid.Column width={10}>
             <Card fluid>
               <Card.Content>
-                <Card.Header>{username}</Card.Header>
+                <Card.Header>{authorName}</Card.Header>
                 <div className='floated'>
                   <Card.Meta>
                     {moment(createdAt).fromNow()}
                     {`-${category}`}
                   </Card.Meta>
                   <Card.Meta>
-                    {user && user.username === username && (
+                    {user && user.username === authorName && (
                       <Icon
                         onClick={() => setToggle(true)}
                         name='pencil alternate'
@@ -143,7 +149,7 @@ const SinglePost = (props) => {
               <hr />
               <Card.Content extra>
                 <LikeButton user={user} post={{ id, likeCount, likes }} />
-                <NewPopup content='Comment on post'>
+                <NewPopup content='Comments'>
                   <Button
                     as='div'
                     labelPosition='right'
@@ -189,13 +195,15 @@ const SinglePost = (props) => {
             {comments.map((comment) => (
               <Card key={comment.id} fluid>
                 <Card.Content>
-                  {user && user.username === comment.username && (
+                  {user && user.id === comment.author.id && (
                     <DeleteButton
                       content='Delete Comment'
                       onDelete={() => handleCommentDelete(comment.id)}
                     />
                   )}
-                  <Card.Header>{comment.username}</Card.Header>
+                  <Card.Header>
+                    {comment.author.username} commented on this post:
+                  </Card.Header>
                   <Card.Meta>{moment(comment.createdAt).fromNow()}</Card.Meta>
                   <Card.Description>{comment.body}</Card.Description>
                 </Card.Content>
@@ -209,88 +217,5 @@ const SinglePost = (props) => {
 
   return postMarkup
 }
-
-const FETCH_POST_QUERY = gql`
-  query($postId: ID!) {
-    getPost(postId: $postId) {
-      id
-      body
-      category
-      createdAt
-      author {
-        username
-        imageUrl
-      }
-      likeCount
-      likes {
-        id
-        createdAt
-      }
-      commentCount
-      comments {
-        id
-        createdAt
-        body
-      }
-    }
-  }
-`
-
-const SUBMIT_COMMENT_MUTATION = gql`
-  mutation($postId: String!, $body: String!) {
-    createComment(postId: $postId, body: $body) {
-      id
-      comments {
-        id
-        body
-        createdAt
-        # author {
-        #   username
-        # }
-      }
-      commentCount
-    }
-  }
-`
-
-const UPDATE_POST_MUTATION = gql`
-  mutation updatePost($postId: ID!, $body: String!) {
-    updatePost(body: $body, postId: $postId) {
-      id
-      body
-      category
-      createdAt
-      # author {
-      #   username
-      # }
-
-      likes {
-        id
-        createdAt
-      }
-      likeCount
-      comments {
-        id
-        body
-        createdAt
-      }
-      commentCount
-    }
-  }
-`
-const DELETE_COMMENT_MUTATION = gql`
-  mutation deleteComment($postId: ID!, $commentId: ID!) {
-    deleteComment(postId: $postId, commentId: $commentId) {
-      id
-      comments {
-        id
-        # username
-        createdAt
-        body
-      }
-      commentCount
-    }
-  }
-`
 
 export default SinglePost

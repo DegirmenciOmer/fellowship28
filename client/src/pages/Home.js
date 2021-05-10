@@ -5,7 +5,7 @@ import PostCard from '../components/PostCard'
 import PostForm from '../components/PostForm'
 
 import { AuthContext } from '../context/auth'
-import { FETCH_POSTS_QUERY } from '../util/graphql'
+import { FETCH_POSTS_QUERY } from '../util/queries'
 import Filtering from '../components/Filtering'
 import NewPopup from '../util/NewPopup'
 
@@ -32,7 +32,6 @@ const Home = () => {
   const {
     getPosts: { paginatedPosts, totalPostsCount, matchedResultsCount },
   } = data
-
 
   function nextPage() {
     setOffset((offset) => offset + PAGINATION_LIMIT)
@@ -130,13 +129,15 @@ const Home = () => {
                 </Button>
               </NewPopup>
             )}
-            {!isLastPage() && (
-              <NewPopup content='Next'>
-                <Button className='ui basic icon button' onClick={nextPage}>
-                  <i className='fas fa-chevron-circle-right'></i>
-                </Button>
-              </NewPopup>
-            )}
+
+            {matchedResultsCount > PAGINATION_LIMIT ||
+              (totalPostsCount > PAGINATION_LIMIT && !isLastPage() && (
+                <NewPopup content='Next'>
+                  <Button className='ui basic icon button' onClick={nextPage}>
+                    <i className='fas fa-chevron-circle-right'></i>
+                  </Button>
+                </NewPopup>
+              ))}
           </Grid.Column>
         </Grid.Row>
       </Grid>
