@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react'
 import { Button, Form } from 'semantic-ui-react'
-import { useMutation, gql } from '@apollo/client'
+import { useMutation } from '@apollo/client'
 import { useForm } from '../util/hooks'
+import { CREATE_POST_MUTATION } from '../util/mutations'
 
 const options = [
   { key: 's', text: 'Shopping', value: 'Shopping' },
@@ -28,13 +29,13 @@ const PostForm = ({ categoryFiltered, postsQuery }) => {
     }))
   }, [categoryFiltered, setValues])
 
-  function createPostCallback() {
-    createPost({
+  async function createPostCallback() {
+    await createPost({
       variables: values,
-      onError(err) {
-        console.log(err && err.graphQLErrors[0] ? err.graphQLErrors[0] : err)
-      },
       refetchQueries: [postsQuery],
+      onError(err) {
+        console.log(err)
+      },
     })
   }
   return (
@@ -76,37 +77,5 @@ const PostForm = ({ categoryFiltered, postsQuery }) => {
     </>
   )
 }
-
-const CREATE_POST_MUTATION = gql`
-  mutation createPost($body: String!, $category: String!) {
-    createPost(body: $body, category: $category) {
-      id
-      body
-      category
-      createdAt
-      author {
-        username
-        imageUrl
-      }
-      likes {
-        id
-        user {
-          username
-        }
-        createdAt
-      }
-      likeCount
-      comments {
-        author {
-          username
-        }
-        id
-        body
-        createdAt
-      }
-      commentCount
-    }
-  }
-`
 
 export default PostForm

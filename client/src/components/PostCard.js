@@ -2,13 +2,12 @@ import React, { useContext } from 'react'
 import { Button, Card, Icon, Label, Image } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import moment from 'moment'
-
+import { DELETE_POST_MUTATION } from '../util/mutations'
 import NewPopup from '../util/NewPopup'
 import { AuthContext } from '../context/auth'
 import LikeButton from './LikeButton'
 import DeleteButton from './DeleteButton'
 import { useMutation } from '@apollo/client'
-import gql from 'graphql-tag'
 
 const PostCard = ({
   post: {
@@ -43,7 +42,9 @@ const PostCard = ({
         <Image floated='right' size='mini' src={imageUrl} />
         <Card.Header>{username}</Card.Header>
         <Card.Meta as={Link} to={`/posts/${id}`}>
-          {moment(createdAt).fromNow(true)}
+          {
+            moment(createdAt).fromNow(true) //put inside const
+          }
           {`-${category}`}
         </Card.Meta>
         <Link to={`/posts/${id}`}>
@@ -70,11 +71,5 @@ const PostCard = ({
     </Card>
   )
 }
-
-const DELETE_POST_MUTATION = gql`
-  mutation deletePost($postId: ID!) {
-    deletePost(postId: $postId)
-  }
-`
 
 export default PostCard
